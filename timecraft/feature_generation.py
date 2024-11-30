@@ -1,67 +1,33 @@
+# timecraft/feature_generation.py
+
 import pandas as pd
-import numpy as np
-from sklearn.decomposition import PCA
 
 class FeatureGenerator:
-    def __init__(self, pca_components=None):
+    def __init__(self):
+        pass
+
+    def generate_features(self, data: pd.DataFrame) -> pd.DataFrame:
         """
-        Initializes the feature generator.
+        Generate additional features based on the input data.
 
         Args:
-            pca_components (int, optional): Number of principal components to generate.
-        """
-        self.pca_components = pca_components
-
-    def create_statistical_features(self, df, window_size):
-        """
-        Generate rolling statistical features.
-
-        Args:
-            df (pd.DataFrame): Input time series data.
-            window_size (int): Rolling window size for statistical calculations.
+            data (pd.DataFrame): The input dataframe with at least one column to generate features.
 
         Returns:
-            pd.DataFrame: Dataframe with statistical features.
+            pd.DataFrame: The dataframe with additional features added.
         """
-        stats = pd.DataFrame()
-        stats['mean'] = df.rolling(window=window_size).mean()
-        stats['std'] = df.rolling(window=window_size).std()
-        stats['min'] = df.rolling(window=window_size).min()
-        stats['max'] = df.rolling(window=window_size).max()
-        stats['skew'] = df.rolling(window=window_size).skew()
-        stats['kurt'] = df.rolling(window=window_size).kurt()
-        return stats
+        # Example feature: Calculate the rolling mean (e.g., 2-period rolling mean)
+        if 'value' in data.columns:
+            data['rolling_mean'] = data['value'].rolling(window=2).mean()
 
-    def create_time_features(self, df):
-        """
-        Create time-based features such as day of the week, month, etc.
+        # Example feature: Extract month and year from a datetime index
+        if isinstance(data.index, pd.DatetimeIndex):
+            data['year'] = data.index.year
+            data['month'] = data.index.month
 
-        Args:
-            df (pd.DataFrame): Input dataframe with a datetime index.
+        # Example feature: Lagged values (previous day's value)
+        data['lagged_value'] = data['value'].shift(1)
 
-        Returns:
-            pd.DataFrame: Dataframe with time-based features.
-        """
-        time_features = pd.DataFrame(index=df.index)
-        time_features['day_of_week'] = df.index.dayofweek
-        time_features['month'] = df.index.month
-        time_features['day_of_year'] = df.index.dayofyear
-        time_features['quarter'] = df.index.quarter
-        return time_features
+        # Add more features as needed, e.g., seasonal indicators, aggregations, etc.
 
-    def apply_pca(self, df):
-        """
-        Apply PCA to reduce dimensionality of features.
-
-        Args:
-            df (pd.DataFrame): Input dataframe.
-
-        Returns:
-            pd.DataFrame: Dataframe with PCA-transformed features.
-        """
-        if self.pca_components is None:
-            raise ValueError("pca_components must be specified to apply PCA.")
-        pca = PCA(n_components=self.pca_components)
-        pca_features = pca.fit_transform(df)
-        return pd.DataFrame(pca_features, index=df.index)
-    
+        return data
