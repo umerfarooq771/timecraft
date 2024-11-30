@@ -1,4 +1,4 @@
-# **timecraft**
+# **Time Craft**
 
 ### Automated Feature Engineering for Time Series Data
 
