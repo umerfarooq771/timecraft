@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="timecraft",
+    name="TIMECRAFTPRO",
     version="0.1.0",
     description="Automated feature engineering for time series data",
     author="Your Name",
