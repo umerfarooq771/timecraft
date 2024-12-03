@@ -21,5 +21,5 @@ setup(
         "Operating System :: OS Independent",
     ],
     long_description=open('README.md', encoding='utf-8').read(),
-    long_description_content_type='text/markdown',  # Explicitly set the type
+    long_description_content_type='text/markdown',
 )
