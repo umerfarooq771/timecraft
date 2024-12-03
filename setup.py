@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name="TIMECRAFTPRO",
-    version="l",
+    version="0.1.0",
     description="time series data",
-    author="Your Name",
-    author_email="your_email@example.com",
+    author="Muhammad Umer",
+    author_email="umerdiwan3@gmail.com",
     url="https://github.com/umerfarooq771/timecraft",
     packages=find_packages(),
     install_requires=[
